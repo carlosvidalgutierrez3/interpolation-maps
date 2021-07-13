@@ -1,0 +1,4808 @@
+<!---------------------------------------PLEASE, DO NOT CHANGE HTML IN THIS FILE!--------------------------------
+-----------------------------------------PLEASE, DO NOT CHANGE HTML IN THIS FILE!--------------------------------
+-----------------------------------------PLEASE, DO NOT CHANGE HTML IN THIS FILE!--------------------------------
+-----------------------------------------PLEASE, DO NOT CHANGE HTML IN THIS FILE!-------------------------------- -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>PAE Map</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    /* -----------------------------------------PLEASE, DO NOT CHANGE CSS CODE IN THIS FILE!-------------------------------- */
+    /* -----------------------------------------PLEASE, DO NOT CHANGE CSS CODE IN THIS FILE!-------------------------------- */
+    /* -----------------------------------------PLEASE, DO NOT CHANGE CSS CODE IN THIS FILE!-------------------------------- */
+    /* -----------------------------------------PLEASE, DO NOT CHANGE CSS CODE IN THIS FILE!-------------------------------- */
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 90%;
+    }
+
+    #menu {
+      background: #fff;
+      position: absolute;
+      z-index: 1;
+      top: 10px;
+      right: 10px;
+      border-radius: 3px;
+      width: 120px;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    #menu a {
+      font-size: 13px;
+      color: #404040;
+      display: block;
+      margin: 0;
+      padding: 0;
+      padding: 10px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+
+    #menu a:last-child {
+      border: none;
+    }
+
+    #menu a:hover {
+      background-color: #f8f8f8;
+      color: #404040;
+    }
+
+    #menu a.active {
+      background-color: #3887be;
+      color: #ffffff;
+    }
+
+    #menu a.active:hover {
+      background: #3074a4;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav id="menu"></nav>
+  <div id="map"></div>
+
+  <script>
+
+    //-------------------------------------PLEASE, DEVELOP MAP ONLY IN THIS FILE--------------------------------------------
+    //-------------------------------------PLEASE, DEVELOP MAP ONLY IN THIS FILE--------------------------------------------
+    //-------------------------------------PLEASE, DEVELOP MAP ONLY IN THIS FILE--------------------------------------------
+    //-------------------------------------PLEASE, DEVELOP MAP ONLY IN THIS FILE--------------------------------------------
+
+    
+
+    //----------------------------------------------JS CODE STARTS HERE------------------------------------------------------
+
+    //Necessary token for maps creation (Always use the same!)
+    mapboxgl.accessToken = 'pk.eyJ1IjoieXVndWkiLCJhIjoiY2s4ZGdpOGxuMGFuYjNmcGd2bGhnZGZkMCJ9.9B0gzmUBMNyI6RJDfEBPGQ';
+
+    //Create map centered on BCN, with the style and zoom chosen
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/light-v10',
+      center: [2.154, 41.39],
+      zoom: 5,
+    });
+
+
+    //Add a listener to the mouse cursor movement. It saves the coordinates where it is located.
+    var coordinates;
+
+    map.on('mousemove', function (e) {
+
+      coordinates = e.lngLat.wrap();
+    });
+
+    //Idea: show data value when user clicks anywhere. Marker needed?
+    var marker = new mapboxgl.Marker();
+
+    function animateMarker() {
+
+      //Set marker at mouse cursor coordinates
+      marker.setLngLat(coordinates);
+
+      //Ensure the marker is added to the map.
+      marker.addTo(map);
+
+      //Request the next frame of the animation.
+      requestAnimationFrame(animateMarker);
+    }
+
+    map.on('load', function () {
+      var layers = map.getStyle().layers;
+
+      var labelLayerId;
+      for (var i = 0; i < layers.length; i++) {
+        if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+          labelLayerId = layers[i].id;
+          break;
+        }
+      }
+
+      //Add a geojson point source.
+      //Local import creates CORS policy problems and JSON must be included directly in code.
+      //This issue will be solved once the DB is active (data will be stored as a JSON in code)
+
+      map.addSource('intdata', {
+        'type': 'geojson',
+        'data': {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 42.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 42.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 42.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 42.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 42.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 42.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 42.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 42.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 42.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 42.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 42.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 42.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 42.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 42.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 42.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 42.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.6, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.7, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.8, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.9, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.1, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.2, 42.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.5, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.6, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.7, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.8, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.9, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.1, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.2, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.3, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.4, 42.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.5, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.6, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.7, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.8, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.9, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.1, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.2, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.3, 42.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.5, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.6, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.7, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.8, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.9, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.1, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.2, 42.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.5, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.6, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.7, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.8, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.9, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.1, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.2, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.3, 42.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.5, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.6, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.7, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.8, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.9, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.1, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.2, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.3, 42]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.5, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.6, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.7, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.8, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.9, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.1, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.2, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.3, 41.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.5, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.6, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.7, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.8, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.9, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [3.1, 41.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.5, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.6, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.7, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.8, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.9, 41.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.5, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.6, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.7, 41.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.4, 41.5]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.3, 41.4]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.8, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.9, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.1, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.2, 41.3]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.2, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.4, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.5, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.6, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.7, 41.2]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.2, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.2, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.3, 41.1]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.2, 41]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 41]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 41]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 41]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 41]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 41]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 41]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 41]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1, 41]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [1.1, 41]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.2, 40.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 40.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 40.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 40.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 40.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 40.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 40.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 40.9]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.1, 40.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.2, 40.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 40.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 40.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 40.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 40.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 40.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 40.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 40.8]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.2, 40.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.3, 40.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 40.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 40.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 40.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 40.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 40.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.9, 40.7]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.4, 40.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.5, 40.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.6, 40.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.7, 40.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [0.8, 40.6]
+              },
+              "properties": {
+                "FIELD3": "0"
+              }
+            }
+          ]
+        }
+
+      });
+
+      //Add the HeatMap layer. All parameters TBD.
+
+      map.addLayer(
+        {
+          'id': 'HeatMap',
+          'type': 'heatmap',
+          'source': 'intdata',
+
+          'paint': {
+            // Increase the heatmap weight based on frequency and property magnitude
+            'heatmap-weight': [
+              'interpolate',
+              ['linear'],
+              ['get', 'mag'],
+              0,
+              0,
+              6,
+              1
+            ],
+            // Increase the heatmap color weight by zoom level
+            // heatmap-intensity is a multiplier on top of heatmap-weight
+						/*'heatmap-intensity': [
+						'interpolate',
+						['linear'],
+						['zoom'],
+						0,
+						1,
+						9,
+						3
+						],*/
+            //Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
+            // Begin color ramp at 0-stop with a 0-transparancy color
+            // to create a blur-like effect.
+            'heatmap-color': [
+              'interpolate',
+              ['linear'],
+              ['heatmap-density'],
+              0,
+              'rgba(33,102,172,0)',
+              0.2,
+              'rgb(8,180,245)',
+              0.4,
+              'rgb(8,245,91)',
+              0.6,
+              'rgb(250,254,37)',
+              0.8,
+              'rgb(254,155,37)',
+              1,
+              'rgb(255,97,0)',
+
+            ],
+            //Adjust the heatmap radius by zoom level
+            'heatmap-radius': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              0,
+              2,
+              9,
+              20
+            ],
+
+          }
+        },
+        'waterway-label'
+      )
+
+
+
+      //Add the 3D Buildings layer. Maybe a smoother 2D-3D transition could be added.
+
+      map.addLayer(
+        {
+          'id': '3d-buildings',
+          'source': 'composite',
+          'source-layer': 'building',
+          'filter': ['==', 'extrude', 'true'],
+          'type': 'fill-extrusion',
+          'paint': {
+            'fill-extrusion-color': '#aaa',
+
+            // use an 'interpolate' expression to add a smooth transition effect to the
+            // buildings as the user zooms in
+            'fill-extrusion-height': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              15,
+              0,
+              15.05,
+              ['get', 'height']
+            ],
+            'fill-extrusion-base': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              15,
+              0,
+              15.05,
+              ['get', 'min_height']
+            ],
+            'fill-extrusion-opacity': 0.6
+          }
+        },
+        labelLayerId
+      );
+
+
+
+      //Add the CirclesMap layer. All parameters TBD.
+
+      map.addLayer({
+        'id': 'CirclesMap',
+        'type': 'circle',
+        'source': 'intdata',
+        'paint': {
+          //Make circles larger depending on zoom
+          'circle-radius': {
+            'base': 10,
+            'stops': [[1, 3], [13, 130]]
+          },
+
+
+          //Color gradient example. Use as a guide for our own colors.
+
+
+          /*'circle-color': [
+              'match',
+              ['get', 'BUILD3'],
+              /*'stops': [
+                  [0, '#0CDEFF'],
+                  [6, '#0CFF91'],
+                  [12, '#0CFF34'],
+                  [18, '#D3FF0C'],
+                  [24, '#FF940C'],
+                  [40, '#FF170C']
+              ]
+              0,
+              '#089FF0',
+              5,
+              '#F4FF0C',
+              12,
+              '#FF820C',
+              30,
+              '#FF0C0C',
+          /* other  '#FF0000'
+          ],*/
+
+
+
+
+          //Our own color gradient
+
+          'circle-color': {
+            property: 'FIELD3',
+            stops: [
+              [0, 'rgba(33,102,172,0)'],
+              [6, 'rgb(8,180,245)'],
+              [12, 'rgb(8,245,91)'],
+              [18, 'rgb(250,254,37)'],
+              [24, 'rgb(254,155,37)'],
+              [100, 'rgb(255,97,0)']
+            ]
+          },
+
+          'circle-opacity': 1,
+          'circle-blur': 0.5,
+          'circle-pitch-alignment': 'map',
+        }
+      });
+    });
+
+    //Allows the user layer control and relates its menu with the correspondent CSS code
+
+    var toggleableLayerIds = ['HeatMap', 'CirclesMap'];
+
+    for (var i = 0; i < toggleableLayerIds.length; i++) {
+      var id = toggleableLayerIds[i];
+
+      var link = document.createElement('a');
+      link.href = '#';
+      link.className = 'active';
+      link.textContent = id;
+
+      link.onclick = function (e) {
+        var clickedLayer = this.textContent;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+        if (visibility === 'visible') {
+          map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+          this.className = '';
+        } else {
+          this.className = 'active';
+          map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        }
+      };
+
+      var layers = document.getElementById('menu');
+      layers.appendChild(link);
+    }
+
+    //Starts the first frame of Marker
+
+    requestAnimationFrame(animateMarker);
+
+    //------------------------------------------------JS CODE ENDS HERE----------------------------------------------
+
+  </script>
+
+
+
+</body>
+
+</html>

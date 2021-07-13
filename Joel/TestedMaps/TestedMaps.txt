@@ -1,0 +1,50 @@
+In this file there will be stored all maps created with the ones in file "PossibleMaps" and data coming for testing.
+Only JS code is relevant in these files, go to "PossibleWebs" to modify HTML and CSS codes.
+
+1. ResolutionTest.html
+
+Interpolation can use this file to test if points are correctly placed in the resolution wished.
+
+To make a test, transform the CSV files into GeoJSON and put the output into the "data" field in line 144.
+Local import generates CORS policy problems, so the unique form to do this test without having the database
+prepared yet is to copy and paste the GeoJSON there.
+
+The result is shown in two different maps: HeatMap and CirclesMap.
+
+The first one shows points in a color density form, the second one generate static circles in points
+passed as data. Note that if the value field equals to 0 all map will look the same: blue points
+in case of HeatMap and black points in case of CirclesMap.
+
+You can control the visibility of these layers with the menu on the top right corner.
+
+
+
+2. L2Test.html
+
+This file can be used to test if layer 2 works correctly. To enter some data, follow the same process
+than above, but this time replace the value of the "geojson" variable located in line 143.
+
+The result will become in two different maps: SquaresMap and CirclesMap.
+
+Both show the same data, but the first one in square forms and the second one in circles form. Note
+that circles can be blurred, but squares not. On the other hand, squares size is fixed, but
+the circles one needs to be adjusted for each zoom.
+
+You can control the visibility of these layers with the menu on the top right corner.
+
+Besides, there are two more buttons on the top left corner which allow you to get the current zoom and the boundaries
+you're currently watching. These implementations are little helps for future developments (layer changing and AJAX
+window system) and will be removed.
+
+This file will be developed as long as we have more data from other layers to represent.
+
+
+
+
+3. DBTest.php
+
+This file can be used for database connection tests. It works in the same way as L2Test.html but data is now taken
+from a MySQL database via PHP. We have suppossed that data is stored in (latitude, longitude, value) format
+because of the GeoJSON structure, but it really won't be like this.
+
+This is only used to test if connection to database is well done and know how we can fetch data correctly.

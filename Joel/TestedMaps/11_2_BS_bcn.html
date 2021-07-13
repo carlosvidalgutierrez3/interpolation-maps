@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>PAE Map</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 90%;
+        }
+
+        #menu {
+            background: #fff;
+            position: absolute;
+            z-index: 1;
+            top: 10px;
+            right: 10px;
+            border-radius: 3px;
+            width: 120px;
+            border: 1px solid rgba(0, 0, 0, 0.4);
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        #menu a {
+            font-size: 13px;
+            color: #404040;
+            display: block;
+            margin: 0;
+            padding: 0;
+            padding: 10px;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+
+        #menu a:last-child {
+            border: none;
+        }
+
+        #menu a:hover {
+            background-color: #f8f8f8;
+            color: #404040;
+        }
+
+        #menu a.active {
+            background-color: #3887be;
+            color: #ffffff;
+        }
+
+        #menu a.active:hover {
+            background: #3074a4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav id="menu"></nav>
+    <div id="map"></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoieXVndWkiLCJhIjoiY2s4ZGdpOGxuMGFuYjNmcGd2bGhnZGZkMCJ9.9B0gzmUBMNyI6RJDfEBPGQ';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/dark-v10',
+            center: [2.154, 41.39],
+            zoom: 5,
+        });
+
+        var coordinates;
+
+        map.on('mousemove', function (e) {
+
+            coordinates = e.lngLat.wrap();
+        });
+
+
+
+
+        var marker = new mapboxgl.Marker();
+
+        function animateMarker(timestamp) {
+            var radius = 20;
+
+            // Update the data to a new position based on the animation timestamp. The
+            // divisor in the expression `timestamp / 1000` controls the animation speed.
+            marker.setLngLat(coordinates);
+
+            // Ensure it's added to the map. This is safe to call if it's already added.
+            marker.addTo(map);
+
+            // Request the next frame of the animation.
+            requestAnimationFrame(animateMarker);
+        }
+
+        map.on('load', function () {
+            var layers = map.getStyle().layers;
+
+            var labelLayerId;
+            for (var i = 0; i < layers.length; i++) {
+                if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+                    labelLayerId = layers[i].id;
+                    break;
+                }
+            }
+            // Add a geojson point source.
+            // Heatmap layers also work with a vector tile source.
+            map.addSource('intdata', {
+                'type': 'geojson',
+                'data':
+                {
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.1538,41.385 ]
+    },
+    "properties": {
+    "FIELD3":28.2
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.1534,41.399 ]
+    },
+    "properties": {
+    "FIELD3":24.44
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.1151,41.387 ]
+    },
+    "properties": {
+    "FIELD3":3.76
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.148,41.426 ]
+    },
+    "properties": {
+    "FIELD3":11.28
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.2045,41.404 ]
+    },
+    "properties": {
+    "FIELD3":20.68
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.1842,41.47 ]
+    },
+    "properties": {
+    "FIELD3":11.28
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.0425,41.492 ]
+    },
+    "properties": {
+    "FIELD3":5.64
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.1014,41.561 ]
+    },
+    "properties": {
+    "FIELD3":22.56
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.2222,41.426 ]
+    },
+    "properties": {
+    "FIELD3":5.64
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.0098,41.392 ]
+    },
+    "properties": {
+    "FIELD3":5.64
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.1838,41.527 ]
+    },
+    "properties": {
+    "FIELD3":9.4
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.2871,41.599 ]
+    },
+    "properties": {
+    "FIELD3":18.8
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.115,41.371 ]
+    },
+    "properties": {
+    "FIELD3":11.28
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 1.9212,41.475 ]
+    },
+    "properties": {
+    "FIELD3":7.52
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.1883,41.482 ]
+    },
+    "properties": {
+    "FIELD3":11.28
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.0074,41.556 ]
+    },
+    "properties": {
+    "FIELD3":20.68
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.1239,41.418 ]
+    },
+    "properties": {
+    "FIELD3":3.76
+    }
+  }
+]
+}
+            });
+
+            map.addLayer(
+                {
+                    'id': 'HeatMap',
+                    'type': 'heatmap',
+                    'source': 'intdata',
+                    'maxzoom' : 10,
+
+                    'paint': {
+                        // Increase the heatmap weight based on frequency and property magnitude
+                        'heatmap-weight': [
+                            'interpolate',
+                            ['linear'],
+                            ['get', 'FIELD3'],
+                            0,
+                            0,
+                            6,
+                            1
+                        ],
+                        // Increase the heatmap color weight weight by zoom level
+                        // heatmap-intensity is a multiplier on top of heatmap-weight
+						/*'heatmap-intensity': [
+						'interpolate',
+						['linear'],
+						['zoom'],
+						0,
+						1,
+						9,
+						3
+						],*/
+                        // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
+                        // Begin color ramp at 0-stop with a 0-transparancy color
+                        // to create a blur-like effect.
+                        'heatmap-color': [
+                            'interpolate',
+                            ['linear'],
+                            ['heatmap-density'],
+                            0,
+                            'rgba(33,102,172,0)',
+                            0.2,
+                            '#21DC32',
+                            0.4,
+                            'rgb(8,245,91)',
+                            0.6,
+                            'rgb(250,254,37)',
+                            0.8,
+                            'rgb(254,155,37)',
+                            1,
+                            'rgb(255,97,0)',
+
+                        ],
+                        // Adjust the heatmap radius by zoom level
+                        'heatmap-radius': [
+                            'interpolate',
+                            ['linear'],
+                            ['zoom'],
+                            0,
+                            2,
+                            9,
+                            20
+                        ],
+                        // Transition from heatmap to circle layer by zoom level
+                        'heatmap-opacity': [
+                            'interpolate',
+                            ['linear'],
+                            ['zoom'],
+                            0.2,
+                            0.6,
+                            25,
+                            0
+                        ]
+                    }
+                },
+                'waterway-label'
+            )
+
+
+
+			/*map.addLayer(
+			{
+			'id': 'earthquakes-point',
+			'type': 'circle',
+			'source': 'earthquakes',
+			'minzoom': 15,
+			'paint': {
+			// Size circle radius by earthquake magnitude and zoom level
+			'circle-radius': [
+			'interpolate',
+			['linear'],
+			['zoom'],
+			7,
+			['interpolate', ['linear'], ['get', 'mag'], 1, 1, 6, 4],
+			16,
+			['interpolate', ['linear'], ['get', 'mag'], 1, 5, 6, 50]
+			],
+			// Color circle by earthquake magnitude
+			'circle-color': [
+			'interpolate',
+			['linear'],
+			['get', 'mag'],
+			1,
+			'rgba(33,102,172,0)',
+			2,
+			'rgb(103,169,207)',
+			3,
+			'rgb(209,229,240)',
+			4,
+			'rgb(253,219,199)',
+			5,
+			'rgb(239,138,98)',
+			6,
+			'rgb(178,24,43)'
+			],
+			'circle-stroke-color': 'white',
+			'circle-stroke-width': 1,
+			// Transition from heatmap to circle layer by zoom level
+			'circle-opacity': [
+			'interpolate',
+			['linear'],
+			['zoom'],
+			7,
+			0,
+			8,
+			1
+			]
+			}
+			},
+			'waterway-label'
+			);*/
+
+            map.addLayer(
+                {
+                    'id': '3d-buildings',
+                    'source': 'composite',
+                    'source-layer': 'building',
+                    'filter': ['==', 'extrude', 'true'],
+                    'type': 'fill-extrusion',
+                    'paint': {
+                        'fill-extrusion-color': '#aaa',
+
+                        // use an 'interpolate' expression to add a smooth transition effect to the
+                        // buildings as the user zooms in
+                        'fill-extrusion-height': [
+                            'interpolate',
+                            ['linear'],
+                            ['zoom'],
+                            15,
+                            0,
+                            15.05,
+                            ['get', 'height']
+                        ],
+                        'fill-extrusion-base': [
+                            'interpolate',
+                            ['linear'],
+                            ['zoom'],
+                            15,
+                            0,
+                            15.05,
+                            ['get', 'min_height']
+                        ],
+                        'fill-extrusion-opacity': 0.6
+                    }
+                },
+                labelLayerId
+            );
+
+
+            map.addLayer({
+                'id': 'CirclesMap',
+                'type': 'circle',
+                'source': 'intdata',
+                'paint': {
+                    // make circles larger as the user zooms from z12 to z22
+                    'circle-radius': {
+                        'base': 10,
+                        'stops': [[1, 2], [5, 4]]
+                    },
+                    // color circles by ethnicity, using a match expression
+                    // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
+                    /*'circle-color': [
+                        'match',
+                        ['get', 'BUILD3'],
+                        /*'stops': [
+                            [0, '#0CDEFF'],
+                            [6, '#0CFF91'],
+                            [12, '#0CFF34'],
+                            [18, '#D3FF0C'],
+                            [24, '#FF940C'],
+                            [40, '#FF170C']
+                        ]
+                        0,
+                        '#089FF0',
+                        5,
+                        '#F4FF0C',
+                        12,
+                        '#FF820C',
+                        30,
+                        '#FF0C0C',
+                    /* other  '#FF0000'
+                    ],*/
+
+                    'circle-color': {
+                        property: 'FIELD3',
+                        type: 'exponential',
+                        stops: [
+                            [0, '#21DC32'],
+                            [5, '#F1F908'],
+                            [10, '#F98B08'],
+                            [15, '#F90808'],
+                            [20, '#9308F9'],
+                            [25, '#6C080B']
+                            /*
+                            [0, '#21DC32'],
+                            [1.5, '#F1F908'],
+                            [3, '#F98B08'],
+                            [4.5, '#F90808'],
+                            [6, '#9308F9'],
+                            [7.5, '#6C080B']
+                            */
+                        ]
+                    },
+
+                    'circle-opacity': 1,
+                    'circle-blur': 0,
+                    'circle-pitch-alignment': 'map',
+                }
+            });
+        });
+
+
+        var toggleableLayerIds = ['HeatMap', 'CirclesMap'];
+
+        for (var i = 0; i < toggleableLayerIds.length; i++) {
+            var id = toggleableLayerIds[i];
+
+            var link = document.createElement('a');
+            link.href = '#';
+            link.className = 'active';
+            link.textContent = id;
+
+            link.onclick = function (e) {
+                var clickedLayer = this.textContent;
+                e.preventDefault();
+                e.stopPropagation();
+
+                var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+                if (visibility === 'visible') {
+                    map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                    this.className = '';
+                } else {
+                    this.className = 'active';
+                    map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+                }
+            };
+
+            var layers = document.getElementById('menu');
+            layers.appendChild(link);
+        }
+
+        requestAnimationFrame(animateMarker);
+    </script>
+
+
+
+</body>
+
+</html>
