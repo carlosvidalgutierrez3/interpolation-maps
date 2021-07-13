@@ -1,0 +1,16 @@
+This is to obtain the example portrayed on the CDR presentation slides:
+
+- Open MATLAB on the directory Interpolation/IDW
+- the file 'BSinfo_2.csv' is given to us by data adquisition. It is a list of pollution values of BS in Europe.
+- the file 'a2.csv' is the grid.
+- Execute:
+	cat = IDW_square_area()
+- The output "cat.csv" is saved and will be used for representation by Joel (Display).
+
+How to build the grid (this will not be on the server):
+- Open MATLAB on the directory Interpolation/GeneratePositionValues
+- Execute:
+	M = kml2format();
+	a2 = generate_positions(M);
+- The grid will be saved in csv in the current folder.
+

@@ -1,0 +1,12 @@
+#releasing
+urllib.request
+json
+ssl
+datetime
+mysql.connector
+pytz
+netCDF4
+aqi
+os
+cdsapi
+csv
